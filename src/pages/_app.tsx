@@ -31,7 +31,7 @@ export default function App({ Component, pageProps }: AppProps) {
         />
         <meta property="og:image" content="/favicon.ico" />{" "}
         {/* Replace with your app's image URL */}
-        <meta property="og:url" content="https://prakriti.netlify.app" />
+        <meta property="og:url" content="https://prakriti-live.netlify.app" />
         <meta property="og:type" content="website" />
       </Head>
       <QueryClientProvider client={queryClient}>
