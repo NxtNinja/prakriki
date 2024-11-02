@@ -1,9 +1,15 @@
-import { Droplet, Wind } from "lucide-react";
+import { CloudRain, Droplet, Snowflake, Wind } from "lucide-react";
 import Forecasts from "../Reusable/NextDayForecasts";
-import { CurrentData } from "@/utils/types";
+import { CurrentData, ForecastDaysData } from "@/utils/types";
 import HourlyForecast from "../Reusable/HourlyForecast";
 
-const Hero = ({ data }: { data: CurrentData }) => {
+const Hero = ({
+  data,
+  forecastInfo,
+}: {
+  data: CurrentData;
+  forecastInfo: ForecastDaysData;
+}) => {
   const formatDateTime = (dateTimeString: string): string => {
     const date = new Date(dateTimeString.replace(" ", "T")); // Convert to ISO format for parsing
     const formattedDate = date.toLocaleDateString("en-US", {
@@ -42,11 +48,21 @@ const Hero = ({ data }: { data: CurrentData }) => {
             </p>
           </div>
           <div className="flex flex-col gap-2">
-            <div className="">
+            <div className="space-y-">
               <p className="md:text-3xl text-base">
                 Current Temperature fetched from -{" "}
                 <span className="font-bold">{data.location.name}</span>
               </p>
+              <div className="flex items-center gap-3">
+                <p className="md:text-xl text-sm">
+                  Region -{" "}
+                  <span className="font-bold">{data.location.region}</span>
+                </p>
+                <p className="md:text-xl text-sm">
+                  Country -{" "}
+                  <span className="font-bold">{data.location.country}</span>
+                </p>
+              </div>
             </div>
             <div className="flex items-center gap-3">
               <img
@@ -62,19 +78,43 @@ const Hero = ({ data }: { data: CurrentData }) => {
               </p>
             </div>
           </div>
-          <div className="flex gap-3">
-            <p className="flex items-center gap-3">
-              <Wind size={30} />{" "}
-              <span className="md:text-2xl text-sm">
-                {data.current.wind_mph} mph
-              </span>
-            </p>
-            <p className="flex items-center gap-3">
-              <Droplet size={30} />{" "}
-              <span className="md:text-2xl text-sm">
-                {data.current.humidity}%
-              </span>
-            </p>
+          <div className="flex justify-between flex-col md:flex-row gap-6">
+            <div className="flex gap-3">
+              <div className="flex items-center flex-col gap-3">
+                <p className="flex items-center gap-3">
+                  <CloudRain size={30} />{" "}
+                  <span className="md:text-2xl text-sm">
+                    {forecastInfo.forecast.forecastday[0].day
+                      .daily_will_it_rain === 1
+                      ? `Expected to rain (${forecastInfo.forecast.forecastday[0].day.daily_chance_of_rain}%)`
+                      : `No expected to rain (${forecastInfo.forecast.forecastday[0].day.daily_chance_of_rain}%)`}
+                  </span>
+                </p>
+                <p className="flex items-center gap-3">
+                  <Snowflake size={30} />{" "}
+                  <span className="md:text-2xl text-sm">
+                    {forecastInfo.forecast.forecastday[0].day
+                      .daily_will_it_snow === 1
+                      ? `Expected to snow (${forecastInfo.forecast.forecastday[0].day.daily_chance_of_snow}%)`
+                      : `No expected to snow (${forecastInfo.forecast.forecastday[0].day.daily_chance_of_snow}%)`}
+                  </span>
+                </p>
+              </div>
+            </div>
+            <div className="flex gap-3">
+              <p className="flex items-center gap-3">
+                <Wind size={30} />{" "}
+                <span className="md:text-2xl text-sm">
+                  {data.current.wind_mph} mph
+                </span>
+              </p>
+              <p className="flex items-center gap-3">
+                <Droplet size={30} />{" "}
+                <span className="md:text-2xl text-sm">
+                  {data.current.humidity}%
+                </span>
+              </p>
+            </div>
           </div>
           <p className="md:text-xl text-base">
             Feels like -{" "}
