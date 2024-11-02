@@ -2,6 +2,7 @@ import { CloudRain, Droplet, Snowflake, Wind } from "lucide-react";
 import Forecasts from "../Reusable/NextDayForecasts";
 import { CurrentData, ForecastDaysData } from "@/utils/types";
 import HourlyForecast from "../Reusable/HourlyForecast";
+import RefetchButton from "../Buttons/RefetchButton";
 
 const Hero = ({
   data,
@@ -120,6 +121,7 @@ const Hero = ({
             Feels like -{" "}
             <span className="font-bold">{data.current.feelslike_c}°C</span>
           </p>
+          <RefetchButton />
         </div>
         <div className="space-y-5">
           <HourlyForecast />
